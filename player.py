@@ -63,3 +63,17 @@ class Player(pygame.sprite.Sprite): # inherit the properties from pygame's sprit
             self.rect.y -= 10
         elif self.rect.y < global_var.WALL_THICKNESS:
             self.rect.y += 10
+
+def update_player_pos(new_player):
+    if global_var.RIGHT_PRESSED:
+        new_player.update(6, 8, global_var.SPRITE_SPEED)
+        new_player.move('right')
+    elif global_var.LEFT_PRESSED:
+        new_player.update(9, 11, global_var.SPRITE_SPEED)
+        new_player.move('left')
+    elif global_var.UP_PRESSED:
+        new_player.update(3, 5, global_var.SPRITE_SPEED)
+        new_player.move('up')
+    elif global_var.DOWN_PRESSED:
+        new_player.update(0, 2, global_var.SPRITE_SPEED)
+        new_player.move('down')
