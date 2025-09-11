@@ -10,9 +10,6 @@ SLIME_AREA = (672, 416)
 # color palette
 BG_COLOR = (37, 19, 26)
 
-# fonts
-# GAME_FONT = pygame.font.Font('assets/AbaddonBold.ttf', 25)
-
 # player starting coordinates
 X = DISPLAY_WIDTH / 2
 Y = WALL_THICKNESS * 2 + 32

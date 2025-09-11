@@ -4,6 +4,7 @@ import global_var
 class Slime(pygame.sprite.Sprite): # inherit the properties from pygame's sprite class
     def __init__(self, pos_x, pos_y):
         super().__init__() #  call constructor for sprite class
+        # sprites
         self.sprites = []
         for i in range (1, 7):
             img = pygame.image.load(f"assets/slime_sprites/{i}.png")
@@ -12,8 +13,10 @@ class Slime(pygame.sprite.Sprite): # inherit the properties from pygame's sprite
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
+        # rect around sprites
         self.rect = self.image.get_rect() # this will allow us to move the sprites
 
+        # initial position
         self.rect.center = (pos_x, pos_y)
 
     def update(self, speed):

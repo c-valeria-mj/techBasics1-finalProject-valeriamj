@@ -4,13 +4,18 @@ import button
 import player
 import slime
 import dragon
+from dialogue import dialogue_dragon
 
 # activate the pygame library
 pygame.init()
+pygame.font.init()
 
 # initialize game screen and give it a title
 screen = pygame.display.set_mode((global_var.DISPLAY_WIDTH, global_var.DISPLAY_HEIGHT))
 pygame.display.set_caption('Dungeons & Dating')
+
+# font
+GAME_FONT = pygame.font.Font('assets/AbaddonBold.ttf', 32)
 
 # Init the clock
 clock = pygame.time.Clock()
@@ -28,6 +33,137 @@ def loading():
         pygame.time.delay(5)
 
 
+def game_over():
+    # load background image for how to screen
+    game_over_surface = pygame.image.load('assets/game_over.png')
+
+    while True:
+        screen.fill(global_var.BG_COLOR)
+
+        # events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:  # return to main menu after pressing ESC
+                if event.key == pygame.K_RETURN:
+                    pygame.quit()
+                    sys.exit()
+
+        # display
+        screen.blit(game_over_surface, (0, 0))  # draws the surface with our background image
+
+        pygame.display.update()
+
+
+def dialogue():
+    # load background image for endgame sequence
+    endgame_img = pygame.image.load('assets/endgame.png')
+    # scale up background image
+    endgame_img = pygame.transform.scale(endgame_img, (global_var.DISPLAY_WIDTH, global_var.DISPLAY_HEIGHT))
+
+    '''
+    Dragon
+    '''
+    dragon_character = dragon.create_dragon(global_var.DISPLAY_WIDTH / 2, 192)
+
+    '''
+    Buttons
+    '''
+    '''# load button images - endgame
+    fight_img = pygame.image.load('assets/buttons/fight_btn.png')
+    talk_img = pygame.image.load('assets/buttons/talk_btn.png')
+
+    # create the button instances - endgame
+    fight_btn = button.Button(224, 416, fight_img, 4)
+    talk_btn = button.Button(544, 416, talk_img, 4)'''
+
+    '''
+    Dialogue
+    '''
+    dialogue_box = pygame.Rect(32, 352, 864, 224)
+    current_dragon_dialogue = GAME_FONT.render('Dragon: ' + dialogue_dragon[0], True, 'white')
+
+    # game loop
+    while True:
+        # display
+        screen.blit(endgame_img, (0, 0))  # draws the surface with our background image
+
+        # dragon sprites
+        dragon_character.draw(screen)
+        dragon_character.update(0.05)
+
+        # text
+        screen.blit(current_dragon_dialogue, (62, 372))
+
+        # events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        '''# buttons
+        if fight_btn.draw_btn(screen):
+            print('fight')
+            loading()
+            game_over()
+        if talk_btn.draw_btn(screen):
+            print('talk')
+            dialogue()'''
+
+        pygame.display.update()
+
+
+def endgame():
+    # load background image for endgame sequence
+    endgame_img = pygame.image.load('assets/endgame.png')
+    # scale up background image
+    endgame_img = pygame.transform.scale(endgame_img, (global_var.DISPLAY_WIDTH, global_var.DISPLAY_HEIGHT))
+
+    '''
+    Dragon
+    '''
+    dragon_character = dragon.create_dragon(global_var.DISPLAY_WIDTH / 2, 192)
+
+    '''
+    Buttons
+    '''
+    # load button images - endgame
+    fight_img = pygame.image.load('assets/buttons/fight_btn.png')
+    talk_img = pygame.image.load('assets/buttons/talk_btn.png')
+
+    # create the button instances - endgame
+    fight_btn = button.Button(224, 416, fight_img, 4)
+    talk_btn = button.Button(544, 416, talk_img, 4)
+
+    # game loop
+    while True:
+        # display
+        screen.blit(endgame_img, (0, 0))  # draws the surface with our background image
+
+        # dragon sprites
+        dragon_character.draw(screen)
+        dragon_character.update(0.05)
+
+        # events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        # buttons
+        if fight_btn.draw_btn(screen):
+            print('fight')
+            loading()
+            game_over()
+        if talk_btn.draw_btn(screen):
+            print('talk')
+            dialogue()
+
+        pygame.display.update()
+
+
 def dragon_dungeon():
     """
     Runs the dungeon containing the dragon from which the player can enter the end game.
@@ -36,12 +172,12 @@ def dragon_dungeon():
     '''
     Dragon
     '''
-    dragon_character = dragon.create_dragon()
+    dragon_character = dragon.create_dragon(192, 448)
 
     '''
     Player Character 
     '''
-    # creating the sprites for animation
+    # creating the Player object
     player_group = pygame.sprite.Group()
     new_player = player.Player(global_var.X, global_var.Y, 5, global_var.SPRITE_SPEED)
     player_group.add(new_player)
@@ -71,7 +207,9 @@ def dragon_dungeon():
         dragon_character.draw(screen)
         dragon_character.update(0.05)
         for dragon_sprite in dragon_character:  # this checks if an individual dragon sprite collided with a player sprite
-            dragon_sprite.check_collision(new_player)
+            if dragon_sprite.check_collision(new_player):
+                loading()
+                endgame()
 
         # player sprites
         # update player's position
@@ -216,7 +354,7 @@ def dungeon():
 
 def world_map_menu():
     """
-    This dispays the map of the game world and the buttons that allow the player to navigate to different game locations.
+    This displays the map of the game world and the buttons that allow the player to navigate to different game locations.
     """
     # load background image for world map
     world_map = pygame.image.load('assets/world_map.png')
@@ -395,4 +533,5 @@ def start_sequence():
 # main_menu()
 # start_sequence()
 # dungeon()
-dragon_dungeon()
+# dragon_dungeon()
+endgame()
