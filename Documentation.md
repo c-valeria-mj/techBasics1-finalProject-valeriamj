@@ -12,7 +12,7 @@
 > That, however is not the focus of out game. No! the main focus is to romance some people and find love.
 
 > [!IMPORTANT]
-> **I had to change the main goal to romaning the dragon only because making NPCs proved too difficult :(** 
+> **I had to change the main goal to romancing the dragon only because making NPCs proved too difficult :(** 
 
 ## Roadmap
 The Initial Idea, broken down into (mostly) achievable goals.
