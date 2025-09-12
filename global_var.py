@@ -1,4 +1,6 @@
-import pygame
+"""
+This is where all the constants and global variables are defined and stored so main.py is a bit more readable.
+"""
 
 # GLOBAL VARIABLES
 # dimensions for game screen

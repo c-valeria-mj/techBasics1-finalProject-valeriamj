@@ -1,10 +1,14 @@
-import pygame, sys, random
-import global_var
+import pygame
+import random
+import sys
+
 import button
+import dragon
+import global_var
 import player
 import slime
-import dragon
-from dialogue import dialogue_dragon
+import walk
+from dialogue import dialogue_lines
 
 # activate the pygame library
 pygame.init()
@@ -33,7 +37,44 @@ def loading():
         pygame.time.delay(5)
 
 
+def the_end():
+    """
+    Nice looking end screen displayed after the player wins the game.
+    """
+    # load background image for how to screen
+    end_surface = pygame.image.load('assets/the_end.png')
+
+    # creating the sprites for animation
+    walk_group = pygame.sprite.Group()
+    new_frame = walk.Walk(global_var.DISPLAY_WIDTH / 2, 96)
+    walk_group.add(new_frame)
+
+    while True:
+        screen.fill(global_var.BG_COLOR)
+
+        # events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:  # return to main menu after pressing ESC
+                if event.key == pygame.K_RETURN:
+                    pygame.quit()
+                    sys.exit()
+
+        # display
+        screen.blit(end_surface, (0, 0))  # draws the surface with our background image
+        walk_group.draw(screen)
+        walk_group.update(0.1)
+
+        pygame.display.update()
+
+
 def game_over():
+    """
+    If the player chooses to fight the dragon or the wrong dialogue options it's game over :(
+    """
     # load background image for how to screen
     game_over_surface = pygame.image.load('assets/game_over.png')
 
@@ -57,7 +98,78 @@ def game_over():
         pygame.display.update()
 
 
+def good_ending():
+    """
+    This is the ony path to the end of the game (different from a game over).
+    It can only be reached if the player chooses the correct dialogue options.
+    """
+
+    # load background image for endgame sequence
+    endgame_img = pygame.image.load('assets/endgame.png')
+    # scale up background image
+    endgame_img = pygame.transform.scale(endgame_img, (global_var.DISPLAY_WIDTH, global_var.DISPLAY_HEIGHT))
+
+    '''
+    Delphine
+    '''
+    delphine_character = pygame.image.load('assets/delphine_sprites/2.png')
+    delphine_character = pygame.transform.scale(delphine_character, (224,224))
+
+    '''
+    Dialogue
+    '''
+
+    current_scene = 5
+    dragon_line = GAME_FONT.render('Dragon: ' + dialogue_lines[current_scene][0], True, 'white')
+
+    player_ans_1 = GAME_FONT.render(dialogue_lines[current_scene][1], True, 'white')
+    player_ans_2 = GAME_FONT.render(dialogue_lines[current_scene][2], True, 'white')
+
+    player_ans_1_rect = player_ans_1.get_rect()
+    player_ans_1_rect.topleft = (62, 448)
+    player_ans_1_clicked = False
+
+    player_ans_2_rect = player_ans_2.get_rect()
+    player_ans_2_rect.topleft = (62, 512)
+    player_ans_2_clicked = False
+
+    # game loop
+    while True:
+        # display
+        screen.blit(endgame_img, (0, 0))  # draws the surface with our background image
+
+        # delphine
+        screen.blit(delphine_character, (global_var.DISPLAY_WIDTH / 2 - 112, global_var.DISPLAY_HEIGHT / 2 - 224))
+
+        # text
+        screen.blit(dragon_line, (62, 372))
+        screen.blit(player_ans_1, player_ans_1_rect)
+        screen.blit(player_ans_2, player_ans_2_rect)
+
+        # get mouse position
+        mouse_position = pygame.mouse.get_pos()
+
+        # events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        if player_ans_1_rect.collidepoint(mouse_position):
+            if pygame.mouse.get_pressed()[0] == 1 and player_ans_1_clicked == False:
+                if current_scene < len(dialogue_lines) - 1:
+                    # current_scene += 1
+                    the_end()
+                player_ans_1_clicked = True
+
+        pygame.display.update()
+
+
 def dialogue():
+    """
+    This function runs the dialogue between the dragon & the player.
+    """
+
     # load background image for endgame sequence
     endgame_img = pygame.image.load('assets/endgame.png')
     # scale up background image
@@ -67,26 +179,26 @@ def dialogue():
     Dragon
     '''
     dragon_character = dragon.create_dragon(global_var.DISPLAY_WIDTH / 2, 192)
-
-    '''
-    Buttons
-    '''
-    '''# load button images - endgame
-    fight_img = pygame.image.load('assets/buttons/fight_btn.png')
-    talk_img = pygame.image.load('assets/buttons/talk_btn.png')
-
-    # create the button instances - endgame
-    fight_btn = button.Button(224, 416, fight_img, 4)
-    talk_btn = button.Button(544, 416, talk_img, 4)'''
-
     '''
     Dialogue
     '''
-    dialogue_box = pygame.Rect(32, 352, 864, 224)
-    current_dragon_dialogue = GAME_FONT.render('Dragon: ' + dialogue_dragon[0], True, 'white')
+    current_scene = 0
+    dragon_line = GAME_FONT.render('Dragon: ' + dialogue_lines[current_scene][0], True, 'white')
+
+    player_ans_1 = GAME_FONT.render(dialogue_lines[current_scene][1], True, 'white')
+    player_ans_2 = GAME_FONT.render(dialogue_lines[current_scene][2], True, 'white')
+
+    player_ans_1_rect = player_ans_1.get_rect()
+    player_ans_1_rect.topleft = (62, 448)
+    player_ans_1_clicked = False
+
+    player_ans_2_rect = player_ans_2.get_rect()
+    player_ans_2_rect.topleft = (62, 512)
+    player_ans_2_clicked = False
 
     # game loop
     while True:
+
         # display
         screen.blit(endgame_img, (0, 0))  # draws the surface with our background image
 
@@ -95,7 +207,12 @@ def dialogue():
         dragon_character.update(0.05)
 
         # text
-        screen.blit(current_dragon_dialogue, (62, 372))
+        screen.blit(dragon_line, (62, 372))
+        screen.blit(player_ans_1, player_ans_1_rect)
+        screen.blit(player_ans_2, player_ans_2_rect)
+
+        # get mouse position
+        mouse_position = pygame.mouse.get_pos()
 
         # events
         for event in pygame.event.get():
@@ -103,19 +220,66 @@ def dialogue():
                 pygame.quit()
                 sys.exit()
 
-        '''# buttons
-        if fight_btn.draw_btn(screen):
-            print('fight')
-            loading()
-            game_over()
-        if talk_btn.draw_btn(screen):
-            print('talk')
-            dialogue()'''
+        if player_ans_1_rect.collidepoint(mouse_position):
+            if pygame.mouse.get_pressed()[0] == 1 and player_ans_1_clicked == False:
+                if current_scene < len(dialogue_lines) - 1:
+                    if current_scene == 4:
+                        loading()
+                        good_ending()
+                        break
+                    if current_scene == 7:
+                        loading()
+                        good_ending()
+                        break
+                    else:
+                        current_scene += 1
+                        dragon_line = GAME_FONT.render('Dragon: ' + dialogue_lines[current_scene][0], True, 'white')
+
+                        player_ans_1 = GAME_FONT.render(dialogue_lines[current_scene][1], True, 'white')
+                        player_ans_2 = GAME_FONT.render(dialogue_lines[current_scene][2], True, 'white')
+
+                        # pygame.mouse.set_pos((610, 380))
+
+                player_ans_1_clicked = True
+
+            if pygame.mouse.get_pressed()[0] == 0:
+                player_ans_1_clicked = False
+
+        elif player_ans_2_rect.collidepoint(mouse_position):
+            if pygame.mouse.get_pressed()[0] == 1 and player_ans_2_clicked == False:
+                if current_scene < len(dialogue_lines) - 1:
+                    # current_scene += 1
+                    if current_scene == 0:
+                        loading()
+                        game_over()
+
+                    if current_scene == 1:
+                        current_scene = 6
+                        dragon_line = GAME_FONT.render('Dragon: ' + dialogue_lines[current_scene][0], True, 'white')
+
+                        player_ans_1 = GAME_FONT.render(dialogue_lines[current_scene][1], True, 'white')
+                        player_ans_2 = GAME_FONT.render(dialogue_lines[current_scene][2], True, 'white')
+
+                        # pygame.mouse.set_pos((610, 380))
+
+                    if current_scene == 5:
+                        loading()
+                        game_over()
+
+                    if current_scene == 7:
+                        loading()
+                        game_over()
+
+            if pygame.mouse.get_pressed()[0] == 0:
+                player_ans_1_clicked = False
 
         pygame.display.update()
 
 
 def endgame():
+    """
+    This functions runs the endgame, which is when the player decides whether to fight or talk to the dragon or fight it (and loose).
+    """
     # load background image for endgame sequence
     endgame_img = pygame.image.load('assets/endgame.png')
     # scale up background image
@@ -154,11 +318,9 @@ def endgame():
 
         # buttons
         if fight_btn.draw_btn(screen):
-            print('fight')
             loading()
             game_over()
         if talk_btn.draw_btn(screen):
-            print('talk')
             dialogue()
 
         pygame.display.update()
@@ -343,13 +505,42 @@ def dungeon():
 
         if stairs_btn.draw_btn(screen):
             global_var.LEVEL += 1
-            print(global_var.LEVEL)
-            if global_var.LEVEL <= 3:
+            if global_var.LEVEL > 3 and global_var.NUM_OF_SLIMES >= 10:
                 loading()
-                dungeon()
+                dragon_dungeon()
             else:
                 loading()
-                main_menu()
+                dungeon()
+
+
+def house_or_shop(button_pressed):
+    """
+    This displays a message to the player letting them know the shop or house are currently unavailable.
+    """
+    # load background image for how to screen
+    shop_surface = pygame.image.load('assets/shop.png')
+    house_surface = pygame.image.load('assets/house.png')
+
+    while True:
+        screen.fill(global_var.BG_COLOR)
+
+        # events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:  # return to main menu after pressing ESC
+                if event.key == pygame.K_ESCAPE:
+                    world_map_menu()
+
+        # display
+        if button_pressed == 'shop':
+            screen.blit(shop_surface, (0, 0))  # draws the surface with our background image
+        if button_pressed == 'house':
+            screen.blit(house_surface, (0, 0))
+
+        pygame.display.update()
 
 
 def world_map_menu():
@@ -385,9 +576,9 @@ def world_map_menu():
 
         # buttons
         if house_btn.draw_btn(screen):
-            print('house')
+            house_or_shop('house')
         if shop_btn.draw_btn(screen):
-            print('shop')
+            house_or_shop('shop')
         if dungeon_btn.draw_btn(screen):
             # print('dungeon')
             dungeon()
@@ -529,9 +720,15 @@ def start_sequence():
 
         pygame.display.update()
 
+'''
+    Hi professor! If you don't feel like restarting the whole game to check something, just un-comment the part you want to checkout :D
+'''
 
+start_sequence()
 # main_menu()
-# start_sequence()
+# world_map_menu()
 # dungeon()
 # dragon_dungeon()
-endgame()
+# endgame()
+# good_ending()
+# the_end()

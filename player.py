@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite): # inherit the properties from pygame's sprit
 
     def update(self, first_spite, last_sprite, sprite_speed):
         """
-        Manages the sprites for animating player movement. All movement sprites are in one folder, this functinon
+        Manages the sprites for animating player movement. All movement sprites are in one folder, this function
         grabs only the necessary ones for the direction of player movement.
         :param first_spite: sets the first sprite for animation depending on the direction the player moves in
         :param last_sprite: sets the last sprite of that animation cycle (direction dependent).

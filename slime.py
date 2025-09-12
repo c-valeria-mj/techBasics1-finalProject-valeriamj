@@ -2,7 +2,15 @@ import pygame, random
 import global_var
 
 class Slime(pygame.sprite.Sprite): # inherit the properties from pygame's sprite class
+    """
+    Slime makes, displays and animates slime objects on screen and also lets them be collected by the player.
+    """
     def __init__(self, pos_x, pos_y):
+        """
+        Initialize a Slime object
+        :param pos_x: X position of the slime
+        :param pos_y: Y position of the slime
+        """
         super().__init__() #  call constructor for sprite class
         # sprites
         self.sprites = []
@@ -20,6 +28,10 @@ class Slime(pygame.sprite.Sprite): # inherit the properties from pygame's sprite
         self.rect.center = (pos_x, pos_y)
 
     def update(self, speed):
+        """
+        Cycle through sprites to animate
+        :param speed: rate at which sprites change to simulate animation
+        """
         self.current_sprite += speed
 
         if self.current_sprite >= len(self.sprites):
@@ -28,13 +40,19 @@ class Slime(pygame.sprite.Sprite): # inherit the properties from pygame's sprite
         self.image = self.sprites[int(self.current_sprite)]
 
     def check_collision(self, player):
+        """
+        Allows slime to be collected (disappear when player touches it)
+        :param player: sprite group with whom slime collides
+        """
         if self.rect.colliderect(player.rect):
-            print('player has collected meeeee :o')
             global_var.NUM_OF_SLIMES += 1
-            print(global_var.NUM_OF_SLIMES)
             self.kill()
 
 def create_slimes():
+    """
+    Makes slime to be displayed
+    :return: Group object (collection of sprites) to be displayed
+    """
     # generate random coordinates for slime
     slime_x = random.randrange(160, global_var.SLIME_AREA[0])
     slime_y = random.randrange(96, global_var.SLIME_AREA[1])
