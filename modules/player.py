@@ -1,7 +1,7 @@
 # The PLayer class is built from my assignment from week8 (animation.py) and what I learned in class (week9).
 
 import pygame, sys
-import global_var
+from modules import global_var
 
 class Player(pygame.sprite.Sprite): # inherit the properties from pygame's sprite class
     """

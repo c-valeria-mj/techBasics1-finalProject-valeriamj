@@ -1,5 +1,5 @@
 import pygame, random
-import global_var
+from modules import global_var
 
 class Slime(pygame.sprite.Sprite): # inherit the properties from pygame's sprite class
     """

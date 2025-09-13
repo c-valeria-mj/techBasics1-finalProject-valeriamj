@@ -2,12 +2,7 @@ import pygame
 import random
 import sys
 
-import button
-import dragon
-import global_var
-import player
-import slime
-import walk
+from modules import global_var, button, player, slime, dragon, walk
 from dialogue import dialogue_lines
 
 # activate the pygame library
@@ -129,10 +124,6 @@ def good_ending():
     player_ans_1_rect.topleft = (62, 448)
     player_ans_1_clicked = False
 
-    player_ans_2_rect = player_ans_2.get_rect()
-    player_ans_2_rect.topleft = (62, 512)
-    player_ans_2_clicked = False
-
     # game loop
     while True:
         # display
@@ -144,7 +135,6 @@ def good_ending():
         # text
         screen.blit(dragon_line, (62, 372))
         screen.blit(player_ans_1, player_ans_1_rect)
-        screen.blit(player_ans_2, player_ans_2_rect)
 
         # get mouse position
         mouse_position = pygame.mouse.get_pos()
@@ -721,7 +711,8 @@ def start_sequence():
         pygame.display.update()
 
 '''
-    Hi professor! If you don't feel like restarting the whole game to check something, just un-comment the part you want to checkout :D
+    Hi professor! If you don't feel like restarting the whole game to check something, 
+    just un-comment the part you want to checkout :D
 '''
 
 start_sequence()

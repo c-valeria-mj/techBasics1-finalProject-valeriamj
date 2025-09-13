@@ -1,15 +1,17 @@
 # Documentation:
-> This is a summarized and better organized document based off all the notes I kept while making this project (in a physical notebook, my laptop and phone notes app, random post it's and texts to my family and loved ones).
-> The original collection of thoughts, sketches, logs and records of the challenges I faced (which were many) are too unintelligible, even I can't understand them. 
+> This is a summarized and better organized document based off all the notes I kept while making this project (in a physical notebook, my laptop and phone notes app, random post-it's and texts to my family and loved ones).
+> The original collection of thoughts, sketches, logs and records of the challenges I faced (which were many) are too unintelligible, even I can't understand them.
+> So, hope this makes sense and helps you understand my process of making Dungeons & Dating.
 
 
-## Inital Brainstorm
+## Initial Brainstorm
 
 ![Mind map](brainstorm/Spider_concept_map.jpeg)
 
 ### The Initial Idea: 
-> Dungeons & Dating follows Princess Guenevive as she arrives in a new town where a dragon s rumored to be hiding. Dungeon crawling and mosnter fighting ensues.
-> That, however is not the focus of out game. No! the main focus is to romance some people and find love.
+Check out this presentation detailing the first concept of the game [here](./brainstorm/TechBasics1_Final_Presentation.pdf)
+> Dungeons & Dating follows Princess Guenevive as she arrives in a new town where a dragon s rumored to be hiding. Dungeon crawling and monster fighting ensues.
+> That, however is not the focus of the game. No! the main focus is to romance some people and find love.
 
 > [!IMPORTANT]
 > **I had to change the main goal to romancing the dragon only because making NPCs proved too difficult :(** 
@@ -58,20 +60,19 @@ _Features I did not manage to achieve are marked in ~~strikethrough~~_
 ### [0] Learning Game Development on YouTube and the Pygame subreddit
 Before I wrote any code for this work I spent a lot of time researching and watching tutorials. I wanted to test the feasibility of my idea. Turns out pygame is not the best for the type of game I wanted to make. Thus, some features had to be sacrificed since I thought a playable game would be better than a buggy and incomplete game.
 ### [1] Finding Game Assets
-I am not an artist. Thus, before I stared making my game I spent more time than I care to admit finding game assets that fit the aesthetic of my game. Shout out to all the incredibly talented people who made awesome free game assets and put them on Itch.io (see References for specifics).
+I am not an artist. Thus, before I stared making my game I spent more time than I care to admit finding game assets that fit the aesthetic of Dungeons & Dating. Shout out to all the incredibly talented people who made awesome free game assets and put them on Itch.io (see References for specifics).
 
 ### [2] Making maps, writing a story and modifying assets
 ####    [2.1] Maps:
 I learned how to use Tiled to make the maps for this game! The world map, the dungeon map and the dialogue screen were made in Tiled using tilesets from the internet (see references for specifics).
-
-Tiled ended up being super helpful to figure out the exact position of objects on the screen.
+Tiled also ended up being super helpful to figure out the exact position of objects on the screen.
 
 ####    [2.2] Writing a story
-The game needed some context before the user could hit play, so I made some Undertale inspired Introduction Sequence to tell the player what's going on. I quickly learned that pygame doesn't like text and  that the typing effect that takes a few lines of code with normal python is almost impossible to achieve (for me). Wrapping text? Unimaginable. I also learned that people haven't made  or updated pygame libraries since 2012.   
+The game needed some context before the user could hit play, so I made an _Undertale_ inspired Introduction Sequence to tell the player what's going on. I quickly learned that pygame doesn't like text and  that the typing effect that takes a few lines of code with normal python is almost impossible to achieve (for me). Wrapping text? Unimaginable. I also learned that people haven't made  or updated pygame libraries since 2012.   
 I ended up making the text images in Procreate, which is not the best solution, but I think the end product is not the worst.
 
 ####    [2.3]
-Given that all the assets for Dungeons & Dating come from different sources, sometimes the disparity in style and, more importantly, color scheme was too noticable. Thus, I went back into Procreate to change some colors and move some pixels. Hopefully the final product looks  cohesive and not too unbalanced.
+Given that all the assets for Dungeons & Dating come from different sources, sometimes the disparity in style and, more importantly, color scheme was too noticeable. Thus, I went back into Procreate to change some colors and move some pixels. Hopefully the final product looks  cohesive and not too unbalanced.
 
 Every artist to make (free) slime sprites ever thinks slimes should be green, so I had to make them purple all on my own.
 
@@ -80,7 +81,7 @@ I knew from the beginning that making Dungeons & Dating would require some amoun
 ####    [3.1] main.py
 This is where I manage game states, it's not the most elegant solution, but it works for the scope of this project.
 Game states are different functions each with their own game loop and unique assets. 
-It made it really easy to test the game during development and find bugs. In the end I gess my game is a bunch of very similar functions wearing a trenchcoat.
+It made it really easy to test the game during development and find bugs. In the end, I guess my game is a bunch of very similar functions wearing a trenchcoat.
 ####    [3.2] global_var.py and dialogue.py
 Both these helper modules exist purely to make main.py more readable since I thought having all that text in main.py would make it difficult to understand and annoying to navigate.
 ####    [3.3] player.py, slime.py, dragon.py and walk.py
@@ -96,7 +97,7 @@ Unlike the helper modules in 3.3, button mostly deals with making functional but
 
 #### The Shop
 The first challenge I faced when making the shop was designing a good-looking GUI, I learned Tiled to make the top-down maps of this game but that style didn't lend itself so well to a shop.
-Furthermore, I'd only really collected pixel-art style assets for the game which wouldn't really work for shop interaction and my best attempts at drawing a shopkeeper NPC still didn't really fit the visual elements of the game.
+Furthermore, I'd only really collected pixel-art style assets for the game which wouldn't really work for shop interaction and my best attempts at drawing a shopkeeper NPC still didn't really fit the other visual elements of the game.
 
 Later on, collecting items and finding chests with coins and loot were scraped from the game so a shop wouldn't even make sense to have.
 
@@ -104,6 +105,7 @@ Later on, collecting items and finding chests with coins and loot were scraped f
 
 When I set out to make this game I thought I would be able to figure out how to let the player save the game as well as manage their inventory from their house.
 In the latest version of the game neither of these are possible so it made no sense to have the house at all.
+The game is also realatively short and much less complex than the original idea which kind of negates the need for saving your game. 
 
 > Certain features that I originally wanted to be a part of the game sadly did not make it to the latest version of the game.
 
@@ -138,14 +140,14 @@ _Features:_
 _Technical Aspects:_
 
 - Game Component class
-- Smoother movement constraints (when player walks against wall)
-- Using pygame-cce might've been smarter, so next version could be converted to it?
+- Smoother movement constraints (when player walks against an obstacle)
+- Using pygame-ce might've been smarter, so next version could be converted to it?
 - Typing effect
 - Dialogue module that's actually scalable
 
 
 ### Coding Habits
-I like to think that I comment code reasonably well as I go, however, this is the biggest pygame project I've embarked on so far and my dode and file organization got really messy. 
+I like to think that I comment code reasonably well as I go, however, this is the biggest pygame project I've embarked on so far and my code and file organization got really messy. 
 This obviously led to unnecessary bugs, errors and questioning of my decision to make a game all by myself. If I ever try to make this game properly I definitely need to be better about not copying and pasting random pieces of code somewhere or commenting out buggy code fragments that then break the whole thing. 
 Also, my variable names got ridiculously long at some points where I'm not sure if it'd be understandable to others.
 
@@ -154,13 +156,15 @@ Also, my variable names got ridiculously long at some points where I'm not sure 
 Other than the specific videos mentioned here, I consulted the Pygame documentation whenever I got an error.
 
 ### Tutorials 
+_* I watched a lot of [Clear Code](https://www.youtube.com/@ClearCode)'s pygame videos, so I won't list all of them._
+
 Buttons - https://www.youtube.com/@CodingWithRuss/playlists
 
 Game states - https://www.youtube.com/watch?v=r0ixaTQxsUI
 
-Tiled tutorial - 
+Tiled tutorial - https://www.youtube.com/watch?v=N6xqCwblyiw&t=7040s
 
-Typewriter text effect - https://www.youtube.com/watch?v=DhK5P2bWznA
+Typewriter text effect (no text wrapping) - https://www.youtube.com/watch?v=DhK5P2bWznA 
 
 Collisions - https://www.youtube.com/watch?v=BHr9jxKithk
 
